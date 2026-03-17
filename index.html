@@ -119,8 +119,8 @@
   <div class="container">
     <div class="card">
       <h1>Sourdough Hydration</h1>
-      <div class="sub">Enter your data: Flour, starter, hydration, salt</div>
-      <div class="pill">reserved</div>
+      <div class="sub">Single-file iPhone web app for flour, starter, hydration, and salt.</div>
+      <div class="pill">Add to Home Screen in Safari</div>
     </div>
 
     <div class="card">
@@ -143,7 +143,7 @@
     </div>
 
     <div class="card">
-      <h2>Results</h2>
+      <h2>Results (True Hydration Only)</h2>
       <div class="grid">
         <div class="result"><div class="label">Starter weight</div><div id="starterWeight" class="value">—</div></div>
         <div class="result"><div class="label">Water to add</div><div id="waterToAdd" class="value">—</div></div>
@@ -201,7 +201,19 @@
         var targetHydration = getNumber('targetHydration') / 100;
         var saltPct = getNumber('saltPct') / 100;
 
+        // TRUE baker's math
         var starterWeight = flour * starterPct;
+        var flourInStarter = starterWeight / (1 + starterHydration);
+        var waterInStarter = starterWeight - flourInStarter;
+
+        var totalFlour = flour + flourInStarter;
+        var totalWater = totalFlour * targetHydration;
+        var waterToAdd = totalWater - waterInStarter;
+
+        var saltWeight = totalFlour * saltPct;
+        var totalDough = totalFlour + totalWater + saltWeight;
+
+        var trueHydration = totalWater / totalFlour * 100; = flour * starterPct;
         var flourInStarter = starterWeight / (1 + starterHydration);
         var waterInStarter = starterWeight - flourInStarter;
         var totalFlour = flour + flourInStarter;
